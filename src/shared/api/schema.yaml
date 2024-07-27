@@ -1,0 +1,247 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /auth/sign-up:
+    post:
+      operationId: AuthController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpBodyDto'
+      responses:
+        '201':
+          description: ''
+  /auth/sign-in:
+    post:
+      operationId: AuthController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInBodyDto'
+      responses:
+        '200':
+          description: ''
+  /auth/sign-out:
+    post:
+      operationId: AuthController_singOut
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /auth/session:
+    get:
+      operationId: AuthController_getSessionInfo
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSessionInfoDto'
+  /account:
+    get:
+      operationId: AccountController_getAccount
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+    patch:
+      operationId: AccountController_patchAccount
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchAccountDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatchAccountDto'
+  /block-list:
+    get:
+      operationId: BlockListController_getList
+      parameters:
+        - name: q
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockListDto'
+  /block-list/item:
+    post:
+      operationId: BlockListController_addBlockListItem
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBlockItemDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockItemDto'
+  /block-list/item/{id}:
+    delete:
+      operationId: BlockListController_removeBlockItem
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockItemDto'
+        '400':
+          description: BlockItem is not exsist
+info:
+  title: Api Blog-List
+  description: ''
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    SignUpBodyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@test.com
+        password:
+          type: string
+          example: '12345'
+        name:
+          type: string
+          example: Constantine
+      required:
+        - email
+        - password
+        - name
+    SignInBodyDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@test.com
+        password:
+          type: string
+          example: '12345'
+      required:
+        - email
+        - password
+    GetSessionInfoDto:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+      required:
+        - id
+        - email
+    AccountDto:
+      type: object
+      properties:
+        id:
+          type: number
+        ownerId:
+          type: number
+        isBlockingEnabled:
+          type: boolean
+      required:
+        - id
+        - ownerId
+        - isBlockingEnabled
+    PatchAccountDto:
+      type: object
+      properties:
+        isBlockingEnabled:
+          type: boolean
+    BlockItemDto:
+      type: object
+      properties:
+        id:
+          type: number
+        blockListId:
+          type: number
+        type:
+          type: string
+          enum:
+            - KeyWord
+            - Website
+        data:
+          type: string
+        craetedAt:
+          format: date-time
+          type: string
+      required:
+        - id
+        - blockListId
+        - type
+        - data
+        - craetedAt
+    BlockListDto:
+      type: object
+      properties:
+        id:
+          type: number
+        ownerId:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockItemDto'
+      required:
+        - id
+        - ownerId
+        - items
+    AddBlockItemDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - KeyWord
+            - Website
+        data:
+          type: string
+      required:
+        - type
+        - data
