@@ -1,20 +1,17 @@
-import { useSessionQuery } from "@/entities/session";
+import { AddBlockItemForm, BlockList } from "@/features/block-list";
 import { ToggleBlockingButton } from "@/features/toggle-blocking/ui/toggle.blocking-button";
 import { UiHeader } from "@/shared/ui/ui-header";
 import { Profile } from "@/widgets/profile";
 
 export function HomePage() {
-
-  const { data } = useSessionQuery();
-
   return (
     <div
       className={`min-h-screen flex-col`}
     >
       <UiHeader right={
-          [
-            <Profile/>,
-          ]
+          <>
+            <Profile/>
+          </>
         }/>
       
       <div className="grid grid-cols-[200px_1fr]">
@@ -22,8 +19,11 @@ export function HomePage() {
           <ToggleBlockingButton/>
         </aside>
         
-        <main>
-          Block List
+        <main className="pt10 px-5">
+          <h1 className="text-2xl mb-8">Block List</h1>
+          <AddBlockItemForm/>
+
+          <BlockList className="mt-3"/>
         </main>
 
       </div>
