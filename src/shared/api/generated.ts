@@ -59,6 +59,7 @@ export interface AccountDto {
 
 export interface GetSessionInfoDto {
   email: string;
+  name: string;
   id: number;
 }
 

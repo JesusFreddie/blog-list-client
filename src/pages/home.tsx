@@ -1,3 +1,4 @@
+import { useSessionQuery } from "@/entities/session";
 import { SignOutButton } from "@/features/auth";
 import { authControllerGetSessionInfo } from "@/shared/api/generated";
 import { UiButton } from "@/shared/ui/ui-button";
@@ -10,18 +11,15 @@ import { useQuery } from "@tanstack/react-query";
 
 export function HomePage() {
 
-  const { data } = useQuery({
-    queryKey: ['session'],
-    queryFn: () => authControllerGetSessionInfo()
-  })
+  const { data } = useSessionQuery();
 
   return (
     <main
       className={`min-h-screen`}
     >
       <UiHeader right={ 
-        <div>
-          {data?.email} 
+        <div className="flex items-center gap-4">
+          <p>{data?.name}</p>
           <SignOutButton/>
         </div> 
         }/>
